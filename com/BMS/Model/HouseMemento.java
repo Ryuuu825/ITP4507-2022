@@ -1,8 +1,11 @@
 package com.BMS.Model;
 
+/**
+ * The Memento class for House.
+ */
 public class HouseMemento extends BuildingMemento {
 
-   // int noOfFloors;
+    // int noOfFloors;
     protected int noOfFloors;
 
     public HouseMemento(House house) {
@@ -16,5 +19,5 @@ public class HouseMemento extends BuildingMemento {
         house.setNoOfFloors(noOfFloors);
     }
 
-    
+
 }

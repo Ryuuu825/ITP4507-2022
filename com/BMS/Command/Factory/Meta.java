@@ -1,5 +1,8 @@
 package com.BMS.Command.Factory;
 
+/**
+ *
+ */
 public class Meta {
 
     public String desc;

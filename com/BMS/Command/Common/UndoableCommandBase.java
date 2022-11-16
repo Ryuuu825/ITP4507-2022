@@ -1,10 +1,17 @@
 package com.BMS.Command.Common;
 
-import java.util.*;
-import com.BMS.Model.*;
+import com.BMS.Model.Building;
 
+import java.util.List;
+
+/**
+ * The base class for all UndoableCommands.
+ */
 public class UndoableCommandBase extends CommandBase implements UndoableCommand {
 
+    /**
+     * The status of the command.
+     */
     protected CmdStatus status;
 
     public UndoableCommandBase(List<Building> buildings) {
@@ -25,8 +32,7 @@ public class UndoableCommandBase extends CommandBase implements UndoableCommand 
     }
 
     public void printDescription() {
-        return;
     }
 
-    
+
 }

@@ -2,11 +2,16 @@ package com.BMS.Model;
 
 import com.BMS.Utils.CIN;
 
+/**
+ * The House class.
+ *
+ * @see com.BMS.Model.Building
+ */
 public class House extends Building {
     private int noOfFloors;
 
-    public House(int id , int noOfRooms,
-            int noOfFloors) {
+    public House(int id, int noOfRooms,
+                 int noOfFloors) {
         super(id, noOfRooms);
         this.noOfFloors = noOfFloors;
     }
@@ -27,19 +32,19 @@ public class House extends Building {
         printBuilding();
         System.out.println();
     }
-    
+
     public void printBuilding() {
-        System.out.println("Building No: " + getId() + ", No of Floors: " + getNoOfFloors()  );
+        System.out.println("Building No: " + getId() + ", No of Floors: " + getNoOfFloors());
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Building No: " + getId() + "\n");
-        sb.append("No of Floors: " + getNoOfFloors() + "\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Building No: ").append(getId()).append("\n");
+        sb.append("No of Floors: ").append(getNoOfFloors()).append("\n");
         for (Room room : getRooms()) {
-            sb.append("Room No.: " + (getRooms().indexOf(room) + 1) + ", " + room + "\n");
+            sb.append("Room No.: ").append(getRooms().indexOf(room) + 1).append(", ").append(room).append("\n");
         }
         return sb.append("\n").toString();
     }
-    
+
 }

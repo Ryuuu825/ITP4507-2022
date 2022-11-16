@@ -2,12 +2,17 @@ package com.BMS.Model;
 
 import com.BMS.Utils.CIN;
 
+/**
+ * The Appartment class.
+ *
+ * @see com.BMS.Model.Building
+ */
 public class Appartment extends Building {
     private double monthlyRental;
     private String supportStaff;
 
-    public Appartment(int id , int noOfRooms,
-            double monthlyRental , String supportStaff) {
+    public Appartment(int id, int noOfRooms,
+                      double monthlyRental, String supportStaff) {
         super(id, noOfRooms);
         this.monthlyRental = monthlyRental;
         this.supportStaff = supportStaff;
@@ -41,18 +46,18 @@ public class Appartment extends Building {
     }
 
     public void printBuilding() {
-        System.out.println("Building No: " + getId() + ", Support Staff: " + getSupportStaff() + ", Monthly Rental: " + getMonthlyRental() );
+        System.out.println("Building No: " + getId() + ", Support Staff: " + getSupportStaff() + ", Monthly Rental: " + getMonthlyRental());
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Building No: " + getId() + "\n");
-        sb.append("Support Staff: " + getSupportStaff() + "\n");
-        sb.append("Monthly Rental: " + getMonthlyRental() + "\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Building No: ").append(getId()).append("\n");
+        sb.append("Support Staff: ").append(getSupportStaff()).append("\n");
+        sb.append("Monthly Rental: ").append(getMonthlyRental()).append("\n");
         for (Room room : getRooms()) {
-            sb.append("Room No.: " + (getRooms().indexOf(room) + 1) + ", " + room + "\n");
+            sb.append("Room No.: ").append(getRooms().indexOf(room) + 1).append(", ").append(room).append("\n");
         }
         return sb.append("\n").toString();
     }
-    
+
 }

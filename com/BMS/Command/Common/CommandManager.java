@@ -1,6 +1,10 @@
 package com.BMS.Command.Common;
 
+/**
+ * The interface for handler/invoker of the command pattern.
+ */
 public interface CommandManager {
-    public void printAvailableCommands();
-    public void executeCommand(char cmd);
+    void printAvailableCommands();
+
+    void executeCommand(char cmd);
 }

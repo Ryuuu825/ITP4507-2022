@@ -1,9 +1,12 @@
 package com.BMS.Model;
 
+import com.BMS.Model.Memento.Memento;
+
 import java.util.ArrayList;
 
-import com.BMS.Model.Memento.*;
-
+/**
+ * The Memento class for Building.
+ */
 public class BuildingMemento implements Memento {
     public Building building;
 
@@ -15,17 +18,14 @@ public class BuildingMemento implements Memento {
         this.building = building;
         this.rooms = new ArrayList<>(building.getRoomQty());
 
-        for (Room room : building.getRooms()) {
-            rooms.add((Room) room) ;
-        }
+        rooms.addAll(building.getRooms());
     }
 
-    public void restore()
-    {
+    public void restore() {
         building.getRooms().clear();
-		for(int i = 0; i < rooms.size(); i++) {
-			building.getRooms().add(rooms.get(i));
-		}
+        for (Room room : rooms) {
+            building.getRooms().add(room);
+        }
     }
 
     public void printDescription() {

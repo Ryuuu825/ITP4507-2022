@@ -1,25 +1,28 @@
 package com.BMS.Command;
 
-import java.util.*;
-
 import com.BMS.Command.Common.UndoableCommandBase;
 import com.BMS.Exception.NoSuchBuildingException;
-import com.BMS.Model.*;
+import com.BMS.Model.Building;
+import com.BMS.Model.BuildingMemento;
 import com.BMS.Model.Memento.BMSCareTaker;
-import com.BMS.Utils.*;
+import com.BMS.Utils.CIN;
 
+import java.util.List;
+
+/**
+ * The command for modifying the building information.
+ */
 public class ModifyBuildingCmd extends UndoableCommandBase {
 
     private BuildingMemento memento;
     private BuildingMemento newMemento;
-    
+
 
     public ModifyBuildingCmd(List<Building> buildings) {
         super(buildings);
     }
 
-    public void execute()
-    {
+    public void execute() {
         System.out.print("Building No. : ");
         int buildingNo = CIN.nextInt();
         Building b = null;
@@ -41,32 +44,30 @@ public class ModifyBuildingCmd extends UndoableCommandBase {
         super.execute();
     }
 
-    public void undo()
-    {
+    public void undo() {
         BMSCareTaker.instance.undo(memento);
         super.undo();
     }
 
-    public void redo() 
-    {
+    public void redo() {
         BMSCareTaker.instance.undo(newMemento);
         super.redo();
     }
 
-    public void printDescription()
-    {
+    public void printDescription() {
         switch (this.status) {
-            case EXECUTED:
-            case REDONE:
-                System.out.print("Modify Building : " );
+            case EXECUTED, REDONE -> {
+                System.out.print("Modify Building : ");
                 memento.printDescription();
                 return;
-            case UNDONE:
-                System.out.print("Modify Building : " );
+            }
+            case UNDONE -> {
+                System.out.print("Modify Building : ");
                 newMemento.printDescription();
                 return;
-            default:
-                return;
+            }
+            default -> {
+            }
         }
     }
 }

@@ -1,14 +1,19 @@
 package com.BMS.Model;
 
-import com.BMS.Model.Memento.*;
+import com.BMS.Model.Memento.Memento;
 
+/**
+ * The Memento class for room.
+ *
+ * @see com.BMS.Model.Room
+ */
 public class RoomMemento implements Memento {
 
     // double monthlyRental; String supportStaff;
-    private double length;
-    private double width;
-    
-    private Room room;
+    private final double length;
+    private final double width;
+
+    private final Room room;
 
     public RoomMemento(Room room) {
         this.length = room.getLength();
@@ -17,7 +22,7 @@ public class RoomMemento implements Memento {
     }
 
     public void restore() {
-        Room room = (Room) this.room;
+        Room room = this.room;
         room.setLength(length);
         room.setWidth(width);
     }
@@ -26,5 +31,5 @@ public class RoomMemento implements Memento {
         System.out.println("Length: " + length + ", Width: " + width);
     }
 
-    
+
 }

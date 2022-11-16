@@ -1,8 +1,14 @@
 package com.BMS.Model.Factory;
 
-import com.BMS.Model.*;
-import com.BMS.Utils.*;
+import com.BMS.Model.Appartment;
+import com.BMS.Model.Building;
+import com.BMS.Utils.CIN;
 
+/**
+ * The factory for Appartment.
+ *
+ * @see com.BMS.Model.Appartment
+ */
 public class AppartmentFactory extends BuildingFactory {
     public Building createBuilding() {
         System.out.print("Building No. : ");
@@ -18,10 +24,10 @@ public class AppartmentFactory extends BuildingFactory {
         System.out.print("No. Rooms : ");
         int noOfRooms = CIN.nextInt();
 
-        
+
         Appartment appartment = new Appartment(id, noOfRooms, monthlyRental, supportStaff);
         for (int i = 0; i < noOfRooms; i++) {
-            System.out.println("Room No. : " + (i + 1) );
+            System.out.println("Room No. : " + (i + 1));
             System.out.print("Length : ");
             int length = CIN.nextInt();
             System.out.print("Width : ");

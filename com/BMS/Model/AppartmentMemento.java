@@ -1,10 +1,14 @@
 package com.BMS.Model;
 
+
+/**
+ * The Memento class for Appartment.
+ */
 public class AppartmentMemento extends BuildingMemento {
 
     // double monthlyRental; String supportStaff;
-    private double monthlyRental;
-    private String supportStaff;
+    private final double monthlyRental;
+    private final String supportStaff;
 
     public AppartmentMemento(Appartment appartment) {
         super(appartment);
@@ -19,5 +23,5 @@ public class AppartmentMemento extends BuildingMemento {
         appartment.setSupportStaff(supportStaff);
     }
 
-    
+
 }

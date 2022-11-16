@@ -1,16 +1,19 @@
 package com.BMS.Command.Common;
 
-import java.util.*;
-import com.BMS.Model.*;
+import com.BMS.Model.Building;
 
-public class CommandBase implements Command {
+import java.util.List;
 
-    protected List<Building>  buildings;
+
+/**
+ * The base class for all commands.
+ */
+public abstract class CommandBase implements Command {
+
+    protected List<Building> buildings;
 
     public CommandBase(List<Building> buildings) {
         this.buildings = buildings;
     }
 
-    public void execute() {
-    }
 }

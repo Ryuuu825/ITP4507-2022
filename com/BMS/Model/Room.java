@@ -1,5 +1,8 @@
 package com.BMS.Model;
 
+/**
+ * The room data model.
+ */
 public class Room {
     private double length;
     private double width;

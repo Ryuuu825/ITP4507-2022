@@ -2,7 +2,7 @@ package com.BMS.Utils;
 
 public class CIN {
 
-    private static java.util.Scanner cin = new java.util.Scanner(System.in);
+    private static final java.util.Scanner cin = new java.util.Scanner(System.in);
 
     public static String nextLine() {
         return cin.nextLine();
@@ -24,7 +24,7 @@ public class CIN {
     }
 
     public static double nextDouble() {
-        
+
         while (true) {
             try {
                 return Double.parseDouble(cin.next());
@@ -34,5 +34,5 @@ public class CIN {
             }
         }
     }
-   
+
 }
