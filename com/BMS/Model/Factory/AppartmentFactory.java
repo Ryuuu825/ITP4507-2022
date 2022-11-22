@@ -9,7 +9,7 @@ import com.BMS.Utils.CIN;
  *
  * @see com.BMS.Model.Appartment
  */
-public class AppartmentFactory extends BuildingFactory {
+public class AppartmentFactory implements BuildingFactory {
     public Building createBuilding() {
         System.out.print("Building No. : ");
         int id = CIN.nextInt();
@@ -38,3 +38,4 @@ public class AppartmentFactory extends BuildingFactory {
         return appartment;
     }
 }
+

@@ -41,8 +41,9 @@ public class DisplayBuildingCmd extends CommandBase {
 
         public void execute() {
             for (Building b : buildings) {
-                b.printBuilding();
+                System.out.println(b);
             }
+            System.out.println();
         }
 
     }
@@ -59,7 +60,8 @@ public class DisplayBuildingCmd extends CommandBase {
         public void execute() {
             for (Building b : buildings) {
                 if (b.getId() == Integer.parseInt(buildingNo)) {
-                    System.out.println(b);
+                    b.printBuilding();
+                    System.out.println();
                     return;
                 }
             }

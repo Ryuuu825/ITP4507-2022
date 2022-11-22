@@ -25,8 +25,9 @@ public abstract class CmdFactoy implements Factory {
                 new Meta("modify building", "com.BMS.Command.Factory.ModifyBuildingCmdFactory")
         );
         put('e',
-                new Meta("edit rooms", "com.BMS.Command.Factory.EditBuildingCmdFactory")
+                new Meta("edit rooms", "com.BMS.Command.Factory.EditRoomCmdFactory")
         );
+
     }};
 
     public abstract Command createCommand();

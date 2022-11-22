@@ -7,6 +7,6 @@ import com.BMS.Model.Building;
  *
  * @see com.BMS.Model.Building
  */
-public abstract class BuildingFactory {
-    public abstract Building createBuilding();
+public interface BuildingFactory {
+    public Building createBuilding();
 }

@@ -105,17 +105,27 @@ public class BMSCommandManager implements CommandManager {
      */
     public void executeCommand(char cmd) {
 
-        Command command = commandsMap.get(cmd).getFactory().createCommand();
         try {
+
+            Command command = commandsMap.get(cmd).getFactory().createCommand();
             command.execute();
+            if (command instanceof UndoableCommand) {
+                undoStack.push((UndoableCommand) command);
+            }
+            
         } catch (BMSCustException e) {
             System.out.println(e.getMessage());
             return;
+        } catch (NullPointerException e) {
+            System.out.println("Invalid command!\n");
+            return;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+            return;
         }
 
-        if (command instanceof UndoableCommand) {
-            undoStack.push((UndoableCommand) command);
-        }
+        
     }
 
     private void undo() {

@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @see com.BMS.Command.EditRoomCmd
  */
-public class EditBuildingCmdFactory extends CmdFactoy {
+public class EditRoomCmdFactory extends CmdFactoy {
 
     public Command createCommand() {
         return new EditRoomCmd(buildings);
@@ -22,12 +22,12 @@ public class EditBuildingCmdFactory extends CmdFactoy {
     public abstract static class EditRoomCmdGroupFactory implements Factory {
         public static Map<Character, Meta> CommandFactoriesMap = new LinkedHashMap<>() {{
             put('a',
-                    new Meta("Add room", "com.BMS.Command.Factory.EditBuildingCmdFactory$EditRoom_AddRoomCmdFactory"));
+                    new Meta("Add room", "com.BMS.Command.Factory.EditRoomCmdFactory$EditRoom_AddRoomCmdFactory"));
             put('d',
-                    new Meta("Delete room", "com.BMS.Command.Factory.EditBuildingCmdFactory$EditRoom_DeleteRoomCmdFactory")
+                    new Meta("Delete room", "com.BMS.Command.Factory.EditRoomCmdFactory$EditRoom_DeleteRoomCmdFactory")
             );
             put('m',
-                    new Meta("Modify room", "com.BMS.Command.Factory.EditBuildingCmdFactory$EditRoom_ModifyRoomCmdFactory")
+                    new Meta("Modify room", "com.BMS.Command.Factory.EditRoomCmdFactory$EditRoom_ModifyRoomCmdFactory")
             );
 
         }};

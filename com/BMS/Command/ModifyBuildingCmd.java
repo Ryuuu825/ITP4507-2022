@@ -1,5 +1,6 @@
 package com.BMS.Command;
 
+import com.BMS.Command.Common.CmdStatus;
 import com.BMS.Command.Common.UndoableCommandBase;
 import com.BMS.Exception.NoSuchBuildingException;
 import com.BMS.Model.Building;
@@ -16,15 +17,19 @@ public class ModifyBuildingCmd extends UndoableCommandBase {
 
     private BuildingMemento memento;
     private BuildingMemento newMemento;
+    private CmdStatus status;
+    private int buildingNo;
+    
 
 
     public ModifyBuildingCmd(List<Building> buildings) {
         super(buildings);
+        status = CmdStatus.PENDING;
     }
 
     public void execute() {
         System.out.print("Building No. : ");
-        int buildingNo = CIN.nextInt();
+        buildingNo = CIN.nextInt();
         Building b = null;
         for (Building building : buildings) {
             if (building.getId() == (buildingNo)) {
@@ -41,33 +46,31 @@ public class ModifyBuildingCmd extends UndoableCommandBase {
         b.printBuilding();
         b.modifyBuilding();
         newMemento = (BuildingMemento) BMSCareTaker.instance.save(b);
-        super.execute();
+        status = CmdStatus.EXECUTED;
     }
 
     public void undo() {
         BMSCareTaker.instance.undo(memento);
-        super.undo();
+        status = CmdStatus.UNDONE;
     }
 
     public void redo() {
         BMSCareTaker.instance.undo(newMemento);
-        super.redo();
+        status = CmdStatus.REDONE;
     }
 
     public void printDescription() {
         switch (this.status) {
-            case EXECUTED, REDONE -> {
-                System.out.print("Modify Building : ");
-                memento.printDescription();
-                return;
-            }
-            case UNDONE -> {
+            case EXECUTED:
+            case REDONE :
                 System.out.print("Modify Building : ");
                 newMemento.printDescription();
                 return;
-            }
-            default -> {
-            }
+            case UNDONE :
+                System.out.print("Modify Building : ");
+                memento.printDescription();
+                return;
+            default : return;
         }
     }
 }

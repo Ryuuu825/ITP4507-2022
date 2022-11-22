@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The Memento class for Building.
  */
 public class BuildingMemento implements Memento {
-    public Building building;
+    protected Building building;
 
     // state
     // protected int id; // setId() is not aviailable and seem not necessary to save the state
@@ -29,6 +29,6 @@ public class BuildingMemento implements Memento {
     }
 
     public void printDescription() {
-        building.printBuilding();
+        System.out.println(building);
     }
 }

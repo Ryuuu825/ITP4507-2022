@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Objects;
 
-/**
+/**]
  * The Building class.
  *
  * @see com.BMS.Model.Factory.BuildingFactory
@@ -49,7 +49,7 @@ public abstract class Building {
     }
 
     public void modifyRoom(int index, double length, double width) {
-        Room room = rooms.get(index);
+        Room room = rooms.get(index-1);
         room.setLength(length);
         room.setWidth(width);
     }

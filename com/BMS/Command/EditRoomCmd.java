@@ -1,11 +1,12 @@
 package com.BMS.Command;
 
 import com.BMS.Command.Common.*;
-import com.BMS.Command.Factory.EditBuildingCmdFactory;
+import com.BMS.Command.Factory.EditRoomCmdFactory;
 import com.BMS.Command.Factory.Factory;
 import com.BMS.Command.Factory.Meta;
 import com.BMS.Exception.BMSCustException;
 import com.BMS.Exception.NoSuchBuildingException;
+import com.BMS.Exception.NoSuchRoomException;
 import com.BMS.Model.Building;
 import com.BMS.Model.Memento.BMSCareTaker;
 import com.BMS.Model.Room;
@@ -37,13 +38,18 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
 
     static {
         try {
-            Map<Character, Meta> temp = EditBuildingCmdFactory.EditRoomCmdGroupFactory.CommandFactoriesMap;
+            Map<Character, Meta> temp = EditRoomCmdFactory.EditRoomCmdGroupFactory.CommandFactoriesMap;
 
             for (Character key : temp.keySet()) {
                 Meta v = temp.get(key);
                 Factory cf = (Factory) Class.forName(v.factoryClassLocation).newInstance();
                 commandsMap.put(key, new CmdMetaInfo(v.desc, cf));
             }
+        } catch (java.lang.NullPointerException e) {
+            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+
+            System.err.println("Error: Cannot create instance of EditRoomCmdGroupFactory");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,15 +78,26 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
         if (b == null) {
             throw new NoSuchBuildingException();
         }
-        System.out.println(b);
+        b.printBuilding();
 
         printAvailableCommands();
         char cmd = CIN.next().charAt(0);
 
-        EditBuildingCmdFactory.EditRoomCmdGroupFactory cf = (EditBuildingCmdFactory.EditRoomCmdGroupFactory) commandsMap.get(cmd).getFactory();
-        cf.setArgs(b);
-        command = (EditRoom_CommandBase) cf.createCommand();
-        command.execute();
+        try {
+            EditRoomCmdFactory.EditRoomCmdGroupFactory cf = (EditRoomCmdFactory.EditRoomCmdGroupFactory) commandsMap.get(cmd).getFactory();
+            cf.setArgs(b);
+            command = (EditRoom_CommandBase) cf.createCommand();
+            command.execute();
+
+        } catch (NullPointerException e) {
+            System.err.println("Error: Invalid command");
+            return;
+        } catch (BMSCustException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        
     }
 
     public void undo() {
@@ -126,21 +143,18 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
     /**
      * The base class for all edit-room sub-commands.
      */
-    public static class EditRoom_CommandBase implements UndoableCommand {
+    public static abstract class EditRoom_CommandBase implements UndoableCommand {
 
         protected Building building;
-        protected CmdStatus status;
 
         protected Room room;
         protected int roomId;
 
         public EditRoom_CommandBase(Building building) {
             this.building = building;
-            this.status = CmdStatus.PENDING;
         }
 
         public void execute() {
-            status = CmdStatus.EXECUTED;
 
             // Updated Building:
             // Building No: 1001
@@ -151,20 +165,10 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
             // Room No.: 3, Length: 12.0, Width: 14.0
 
             System.out.println("Updated Building:");
-            System.out.println(building);
+            building.printBuilding();
 
         }
 
-        public void undo() {
-            status = CmdStatus.UNDONE;
-        }
-
-        public void redo() {
-            status = CmdStatus.REDONE;
-        }
-
-        public void printDescription() {
-        }
     }
 
     /**
@@ -188,12 +192,10 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
 
         public void undo() {
             building.getRooms().remove(room);
-            super.undo();
         }
 
         public void redo() {
             room = building.addRoom(room.getLength(), room.getWidth());
-            super.redo();
         }
 
         public void printDescription() {
@@ -215,19 +217,21 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
         public void execute() {
             System.out.print("Room No. : ");
             roomId = CIN.nextInt();
-            room = building.getRooms().get(roomId - 1);
+            try {
+                room = building.getRooms().get(roomId - 1);
+            } catch (IndexOutOfBoundsException e) {
+                throw new NoSuchRoomException();
+            }
             building.getRooms().remove(room);
             super.execute();
         }
 
         public void undo() {
             building.getRooms().add(roomId - 1, room);
-            super.undo();
         }
 
         public void redo() {
             building.getRooms().remove(room);
-            super.redo();
         }
 
         public void printDescription() {
@@ -246,15 +250,21 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
 
         private RoomMemento oldRoomMemento;
         private RoomMemento newRoomMemento;
+        private CmdStatus status;
 
         public EditRoom_ModifyRoomCmd(Building building) {
             super(building);
+            this.status = CmdStatus.PENDING;
         }
 
         public void execute() {
             System.out.print("Room No. : ");
             roomId = CIN.nextInt();
-            room = building.getRooms().get(roomId - 1);
+            try {
+                room = building.getRooms().get(roomId - 1);
+            } catch (IndexOutOfBoundsException e) {
+                throw new NoSuchRoomException();
+            }
             try {
                 oldRoomMemento = (RoomMemento) BMSCareTaker.instance.save(room);
             } catch (Exception e) {
@@ -272,7 +282,7 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            super.execute();
+            status = CmdStatus.EXECUTED;
         }
 
         public void undo() {
@@ -281,7 +291,7 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
             } catch (BMSCustException e) {
                 e.printStackTrace();
             }
-            super.undo();
+            this.status = CmdStatus.UNDONE;
         }
 
         public void redo() {
@@ -290,14 +300,14 @@ public class EditRoomCmd extends UndoableCommandBase implements CommandManager {
             } catch (BMSCustException e) {
                 e.printStackTrace();
             }
-            super.redo();
+            this.status = CmdStatus.REDONE;
         }
 
         public void printDescription() {
             System.out.print("Modify Room : ");
             System.out.printf("Building No. %d, Room No. %d, ", building.getId(), roomId);
             newRoomMemento.printDescription();
+            }
         }
 
     }
-}

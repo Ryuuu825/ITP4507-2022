@@ -14,6 +14,7 @@ import java.util.List;
 public class AddBuildingCmd extends UndoableCommandBase {
 
     private Building building;
+    private String undoString ;
 
     public AddBuildingCmd(List<Building> buildings) {
         super(buildings);
@@ -39,9 +40,12 @@ public class AddBuildingCmd extends UndoableCommandBase {
         try {
 
             // get the factory from the name of runtime building type
-            com.BMS.Utils.Logger.debug("com.BMS.Model.Factory." + Building.buildingType.get(type.charAt(0)) + "Factory");
-            bf = (BuildingFactory) Class.forName("com.BMS.Model.Factory." + Building.buildingType.get(type.charAt(0)) + "Factory").newInstance();
+            bf = (BuildingFactory) Class.forName("com.BMS.Model.Factory." + Building.buildingType.get(type.charAt(0)) + "Factory")
+                .getDeclaredConstructor().newInstance();
             building = bf.createBuilding();
+
+            undoString = building.toString();
+            
 
         } catch (NullPointerException e) {
             throw new CouldNotCreateInstanceException("Building");
@@ -53,27 +57,27 @@ public class AddBuildingCmd extends UndoableCommandBase {
         buildings.add(building);
 
         // print info about the building
-        System.out.println("New Building Added:\n" + building.toString());
+        System.out.println("New Building Added:\n" );
+        building.printBuilding();
 
-        super.execute();
+
 
     }
 
 
     public void undo() {
         buildings.remove(building);
-        super.undo();
     }
 
     public void redo() {
         buildings.add(building);
-        super.redo();
     }
 
 
     public void printDescription() {
         System.out.print("Add Building : ");
-        building.printBuilding();
+        System.out.println(undoString);
+       
     }
 
 

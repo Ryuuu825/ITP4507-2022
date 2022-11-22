@@ -15,7 +15,7 @@ public class Main {
         BMSCommandManager manager = new BMSCommandManager(buildings);
 
         do {
-            System.out.println(NAME);
+            System.out.print(NAME);
             manager.printAvailableCommands();
 
             char cmd = CIN.next().toLowerCase().charAt(0);
@@ -24,7 +24,7 @@ public class Main {
                 manager.executeCommand(cmd);
 
             } catch (Exception e) {
-                com.BMS.Utils.Logger.debug(e.getLocalizedMessage());
+                System.err.println(e.getMessage());
             }
 
         } while (true);

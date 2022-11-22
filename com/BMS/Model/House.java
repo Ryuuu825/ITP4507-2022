@@ -29,22 +29,24 @@ public class House extends Building {
         System.out.print("No. of Floors : ");
         this.noOfFloors = CIN.nextInt();
         System.out.println("Building Modified:");
-        printBuilding();
+        System.out.println(this);
         System.out.println();
     }
 
-    public void printBuilding() {
-        System.out.println("Building No: " + getId() + ", No of Floors: " + getNoOfFloors());
+    public String toString() {
+        return "Building No: " + getId() + ", No of Floors: " + getNoOfFloors();
     }
 
-    public String toString() {
+    public void printBuilding() {
         StringBuilder sb = new StringBuilder();
         sb.append("Building No: ").append(getId()).append("\n");
         sb.append("No of Floors: ").append(getNoOfFloors()).append("\n");
         for (Room room : getRooms()) {
             sb.append("Room No.: ").append(getRooms().indexOf(room) + 1).append(", ").append(room).append("\n");
         }
-        return sb.append("\n").toString();
+        sb.append("\n").toString();
+
+        System.out.println(sb);
     }
 
 }

@@ -41,15 +41,15 @@ public class Appartment extends Building {
         System.out.print("Modify Support Staff : ");
         this.supportStaff = CIN.nextLine();
         System.out.println("Building Modified:");
-        printBuilding();
+        System.out.println(this);
         System.out.println();
     }
 
-    public void printBuilding() {
-        System.out.println("Building No: " + getId() + ", Support Staff: " + getSupportStaff() + ", Monthly Rental: " + getMonthlyRental());
+    public String toString() {
+        return "Building No: " + getId() + ", Support Staff: " + getSupportStaff() + ", Monthly Rental: " + getMonthlyRental();
     }
 
-    public String toString() {
+    public void printBuilding() {
         StringBuilder sb = new StringBuilder();
         sb.append("Building No: ").append(getId()).append("\n");
         sb.append("Support Staff: ").append(getSupportStaff()).append("\n");
@@ -57,7 +57,8 @@ public class Appartment extends Building {
         for (Room room : getRooms()) {
             sb.append("Room No.: ").append(getRooms().indexOf(room) + 1).append(", ").append(room).append("\n");
         }
-        return sb.append("\n").toString();
+        sb.append("\n").toString();
+        System.out.println(sb);
     }
 
 }

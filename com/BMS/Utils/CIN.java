@@ -1,9 +1,12 @@
 package com.BMS.Utils;
 
+import java.io.File;
+import java.io.FileWriter;
+
 public class CIN {
 
     private static final java.util.Scanner cin = new java.util.Scanner(System.in);
-
+    
     public static String nextLine() {
         return cin.nextLine();
     }
